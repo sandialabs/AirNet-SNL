@@ -3,6 +3,10 @@
 
 # AirNet-SNL: End-to-End Training of Iterative Reconstruction and Deep Neural Network Regularization for Sparse-Data XPCI CT
 
+## Documentation
+
+More information about the AirNet-SNL modules is available at [readthedocs](https://airnet-snl.readthedocs.io/en/latest/).
+
 ## Overview
 AirNet-SNL is a Python package for computed tomography (CT) reconstruction with applications in X-ray phase contrast imaging (XPCI) given sparse data.
 It combines iterative reconstruction and convolutional neural networks with end-to-end training.
