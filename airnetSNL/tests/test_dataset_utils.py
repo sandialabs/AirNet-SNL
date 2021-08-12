@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../')
+
 import airnetSNL.dataset.dataset_utils as du
 import torch
 
