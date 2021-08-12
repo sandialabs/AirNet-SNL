@@ -1,6 +1,6 @@
-import airnetSNL.model.train_loop as tl
+# import airnetSNL.model.train_loop as tl
 # import airnetSNL.model.airnet_snl as snl
-import airnetSNL.dataset.dataset_utils as du
+# import airnetSNL.dataset.dataset_utils as du
 import torch
 from torch.utils.data import TensorDataset, DataLoader
 from torch import optim
