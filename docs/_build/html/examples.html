@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AirNet-SNL Examples &mdash; AirNet-SNL 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="model package" href="model.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> AirNet-SNL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">model package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AirNet-SNL Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example-1-training-airnet-snl">Example 1: Training AirNet-SNL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-2-running-inference-with-airnet-snl">Example 2: Running inference with AirNet-SNL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AirNet-SNL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>AirNet-SNL Examples</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="airnet-snl-examples">
+<h1>AirNet-SNL Examples<a class="headerlink" href="#airnet-snl-examples" title="Permalink to this headline">¶</a></h1>
+<p>Check out the examples below!</p>
+<section id="example-1-training-airnet-snl">
+<h2>Example 1: Training AirNet-SNL<a class="headerlink" href="#example-1-training-airnet-snl" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">airnetSNL.model.train_loop</span> <span class="k">as</span> <span class="nn">tl</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">airnetSNL.model.airnet_snl</span> <span class="k">as</span> <span class="nn">snl</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">airnetSNL.dataset.dataset_utils</span> <span class="k">as</span> <span class="nn">du</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="linenos"> 5</span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">TensorDataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="linenos"> 6</span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">optim</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="n">angles</span> <span class="o">=</span> <span class="n">du</span><span class="o">.</span><span class="n">decimateAngles</span><span class="p">(</span><span class="n">nAnglesFull</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span>
+<span class="linenos"> 9</span>                            <span class="n">downsample</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="linenos">10</span><span class="n">imgSize</span> <span class="o">=</span> <span class="mi">336</span>
+<span class="linenos">11</span><span class="n">batchSize</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="linenos">12</span><span class="n">model</span> <span class="o">=</span> <span class="n">snl</span><span class="o">.</span><span class="n">AirNetSNL</span><span class="p">(</span><span class="n">angles</span><span class="o">=</span><span class="n">angles</span><span class="p">,</span>
+<span class="linenos">13</span>                        <span class="n">n_iterations</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+<span class="linenos">14</span>                        <span class="n">n_cnn</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="linenos">15</span>                        <span class="n">imgSize</span><span class="o">=</span><span class="n">imgSize</span><span class="p">,</span>
+<span class="linenos">16</span>                        <span class="n">batchSize</span><span class="o">=</span><span class="n">batchSize</span><span class="p">,</span>
+<span class="linenos">17</span>                        <span class="n">includeSkipConnection</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="n">trainSinograms</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">angles</span><span class="p">),</span> <span class="n">imgSize</span><span class="p">)</span>
+<span class="linenos">22</span><span class="n">trainImages</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">)</span>
+<span class="linenos">23</span><span class="n">trainSet</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">trainSinograms</span><span class="p">,</span> <span class="n">trainImages</span><span class="p">)</span>
+<span class="linenos">24</span><span class="n">trainLoader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">trainSet</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batchSize</span><span class="p">)</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="n">tl</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+<span class="linenos">27</span>                <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span>
+<span class="linenos">28</span>                <span class="n">train_loader</span><span class="o">=</span><span class="n">trainLoader</span><span class="p">,</span>
+<span class="linenos">29</span>                <span class="n">nEpochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">30</span>                <span class="n">saveModel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="linenos">31</span>                <span class="n">resumeFrom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="linenos">32</span>                <span class="n">saveFilePath</span><span class="o">=</span><span class="s1">&#39;./testModel.pth&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-running-inference-with-airnet-snl">
+<h2>Example 2: Running inference with AirNet-SNL<a class="headerlink" href="#example-2-running-inference-with-airnet-snl" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">airnetSNL.model.airnet_snl</span> <span class="k">as</span> <span class="nn">snl</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">airnetSNL.dataset.dataset_utils</span> <span class="k">as</span> <span class="nn">du</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="linenos"> 4</span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">TensorDataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="n">angles</span> <span class="o">=</span> <span class="n">du</span><span class="o">.</span><span class="n">decimateAngles</span><span class="p">(</span><span class="n">nAnglesFull</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span>
+<span class="linenos"> 7</span>                            <span class="n">downsample</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="linenos"> 8</span><span class="n">imgSize</span> <span class="o">=</span> <span class="mi">336</span>
+<span class="linenos"> 9</span><span class="n">batchSize</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="linenos">10</span><span class="n">totalSamples</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="n">model</span> <span class="o">=</span> <span class="n">snl</span><span class="o">.</span><span class="n">AirNetSNL</span><span class="p">(</span><span class="n">angles</span><span class="o">=</span><span class="n">angles</span><span class="p">,</span>
+<span class="linenos">13</span>                        <span class="n">n_iterations</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+<span class="linenos">14</span>                        <span class="n">n_cnn</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="linenos">15</span>                        <span class="n">imgSize</span><span class="o">=</span><span class="n">imgSize</span><span class="p">,</span>
+<span class="linenos">16</span>                        <span class="n">batchSize</span><span class="o">=</span><span class="n">batchSize</span><span class="p">,</span>
+<span class="linenos">17</span>                        <span class="n">includeSkipConnection</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">18</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="linenos">19</span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;./model.pth&#39;</span>
+<span class="linenos">20</span><span class="n">testSinograms</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">totalSamples</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">angles</span><span class="p">),</span> <span class="n">imgSize</span><span class="p">)</span>
+<span class="linenos">21</span><span class="n">testImages</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">totalSamples</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">)</span>
+<span class="linenos">22</span><span class="n">testSet</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">testSinograms</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">testImages</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+<span class="linenos">23</span><span class="n">testLoader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">testSet</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batchSize</span><span class="p">)</span>
+<span class="linenos">24</span><span class="n">y_img_pred</span> <span class="o">=</span> <span class="n">run_inference</span><span class="p">(</span><span class="n">testLoader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="references.html" class="btn btn-neutral float-right" title="References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="model.html" class="btn btn-neutral float-left" title="model package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Dennis J. Lee
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

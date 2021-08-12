@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>model.train_loop &mdash; AirNet-SNL 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> AirNet-SNL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dataset.html">dataset package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model.html">model package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AirNet-SNL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>model.train_loop</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for model.train_loop</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">errno</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">F</span>
+
+
+<div class="viewcode-block" id="train_model"><a class="viewcode-back" href="../../model.html#model.train_loop.train_model">[docs]</a><span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+                <span class="n">optimizer</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">,</span>
+                <span class="n">train_loader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span>
+                <span class="n">nEpochs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="n">saveModel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">resumeFrom</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">saveFilePath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                <span class="n">loadFilePath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Train a model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        * model (Module): Model to be trained.</span>
+<span class="sd">        * optimizer (Adam): Optimization parameters, e.g. learning rate.</span>
+<span class="sd">        * train_loader (DataLoader): Dataset parameters, e.g. batch size.</span>
+<span class="sd">        * nEpochs (int): Number of epochs for training.</span>
+<span class="sd">        * saveModel (bool): Save model if loss improves.</span>
+<span class="sd">        * resumeFrom (int): Resume training from epoch number.</span>
+<span class="sd">        * saveFilePath (str): Where to save the model.</span>
+<span class="sd">        * loadFilePath (str): Which model to load.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">           :linenos:</span>
+
+<span class="sd">           import airnetSNL.model.train_loop as tl</span>
+<span class="sd">           import airnetSNL.model.airnet_snl as snl</span>
+<span class="sd">           import airnetSNL.dataset.dataset_utils as du</span>
+<span class="sd">           import torch</span>
+<span class="sd">           from torch.utils.data import TensorDataset, DataLoader</span>
+<span class="sd">           from torch import optim</span>
+
+<span class="sd">           angles = du.decimateAngles(nAnglesFull=451,</span>
+<span class="sd">                                      downsample=8)</span>
+<span class="sd">           imgSize = 336</span>
+<span class="sd">           batchSize = 10</span>
+<span class="sd">           model = snl.AirNetSNL(angles=angles,</span>
+<span class="sd">                                 n_iterations=12,</span>
+<span class="sd">                                 n_cnn=10,</span>
+<span class="sd">                                 imgSize=imgSize,</span>
+<span class="sd">                                 batchSize=batchSize,</span>
+<span class="sd">                                 includeSkipConnection=False)</span>
+
+<span class="sd">           optimizer = optim.Adam(model.parameters(), lr=1e-5)</span>
+
+<span class="sd">           trainSinograms = torch.zeros(100, 1, len(angles), imgSize)</span>
+<span class="sd">           trainImages = torch.zeros(100, 1, imgSize, imgSize)</span>
+<span class="sd">           trainSet = TensorDataset(trainSinograms, trainImages)</span>
+<span class="sd">           trainLoader = DataLoader(trainSet, batch_size=batchSize)</span>
+
+<span class="sd">           tl.train_model(model=model,</span>
+<span class="sd">                          optimizer=optimizer,</span>
+<span class="sd">                          train_loader=trainLoader,</span>
+<span class="sd">                          nEpochs=1,</span>
+<span class="sd">                          saveModel=False,</span>
+<span class="sd">                          resumeFrom=0,</span>
+<span class="sd">                          saveFilePath=&#39;./testModel.pth&#39;)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">train_one_batch</span><span class="p">(</span><span class="n">x_sinogram</span><span class="p">,</span> <span class="n">y_img_gt</span><span class="p">):</span>
+        <span class="n">y_img_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_sinogram</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">y_img_pred</span><span class="p">,</span> <span class="n">y_img_gt</span><span class="p">)</span>
+
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>  <span class="c1"># Clears Gradient</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># Calculate Gradients</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>  <span class="c1"># Update Weights</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span> <span class="nf">train_epoch</span><span class="p">():</span>
+        <span class="n">total_loss</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">x_sinogram</span><span class="p">,</span> <span class="n">y_img</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+            <span class="n">x_sinogram</span> <span class="o">=</span> <span class="n">x_sinogram</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+            <span class="n">y_img</span> <span class="o">=</span> <span class="n">y_img</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+            <span class="n">batch_loss</span> <span class="o">=</span> <span class="n">train_one_batch</span><span class="p">(</span><span class="n">x_sinogram</span><span class="p">,</span> <span class="n">y_img</span><span class="p">)</span>
+            <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">batch_loss</span>
+
+        <span class="k">return</span> <span class="n">total_loss</span>
+
+    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="n">epoch_num</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;epoch&#39;</span><span class="p">:</span> <span class="n">epoch_num</span><span class="p">,</span>
+            <span class="s1">&#39;model_state_dict&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
+            <span class="s1">&#39;optimizer_state_dict&#39;</span><span class="p">:</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
+            <span class="s1">&#39;loss_per_epoch&#39;</span><span class="p">:</span> <span class="n">loss_per_epoch</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">saveFilePath</span><span class="p">)</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">saveFilePath</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Need to specify saveFilePath to save model.&quot;</span><span class="p">)</span>
+
+    <span class="n">saved_epoch</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">loss_per_epoch</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nEpochs</span><span class="p">)</span>
+    <span class="n">loss_per_epoch</span> <span class="o">=</span> <span class="n">loss_per_epoch</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">resumeFrom</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">loadFilePath</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">ENOENT</span><span class="p">,</span>
+                                    <span class="n">os</span><span class="o">.</span><span class="n">stderror</span><span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">ENOENT</span><span class="p">),</span>
+                                    <span class="n">loadFilePath</span><span class="p">)</span>
+        <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">loadFilePath</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;model_state_dict&#39;</span><span class="p">])</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;optimizer_state_dict&#39;</span><span class="p">])</span>
+        <span class="n">saved_epoch</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">]</span>
+        <span class="n">saved_loss</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;loss_per_epoch&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Initialize loss_per_epoch with saved_loss</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">saved_loss</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">nEpochs</span><span class="p">:</span>
+            <span class="n">loss_per_epoch</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nEpochs</span><span class="p">)</span>
+            <span class="n">loss_per_epoch</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">saved_loss</span><span class="p">)]</span> <span class="o">=</span> <span class="n">saved_loss</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loaded model!&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;saved_epoch = </span><span class="si">{</span><span class="n">saved_epoch</span><span class="si">}</span><span class="s1">, nEpochs = </span><span class="si">{</span><span class="n">nEpochs</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">save_interval</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">minLoss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1e9</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">saved_epoch</span><span class="p">,</span> <span class="n">nEpochs</span><span class="p">):</span>
+        <span class="n">total_loss</span> <span class="o">=</span> <span class="n">train_epoch</span><span class="p">()</span>
+        <span class="n">loss_per_epoch</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_loss</span>
+
+        <span class="c1"># Save model if loss decreases</span>
+        <span class="k">if</span> <span class="n">e</span> <span class="o">%</span> <span class="n">save_interval</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">saveModel</span> <span class="ow">and</span> <span class="n">total_loss</span> <span class="o">&lt;</span> <span class="n">minLoss</span><span class="p">:</span>
+            <span class="n">minLoss</span> <span class="o">=</span> <span class="n">total_loss</span>
+            <span class="n">save_model</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;epoch = </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">, loss = </span><span class="si">{</span><span class="n">total_loss</span><span class="si">}</span><span class="s1">, saved!&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;epoch = </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">, loss = </span><span class="si">{</span><span class="n">total_loss</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Save if checkpoint before nEpochs</span>
+    <span class="k">if</span> <span class="n">saved_epoch</span> <span class="o">&lt;</span> <span class="n">nEpochs</span> <span class="ow">and</span> <span class="n">saveModel</span><span class="p">:</span>
+        <span class="n">epoch</span> <span class="o">=</span> <span class="n">nEpochs</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">save_model</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved model!&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="run_inference"><a class="viewcode-back" href="../../model.html#model.train_loop.run_inference">[docs]</a><span class="k">def</span> <span class="nf">run_inference</span><span class="p">(</span><span class="n">testLoader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">isFileDict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Run the AirNet-SNL model by passing it in the argument.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        * testLoader (DataLoader): Dataset for running inference.</span>
+<span class="sd">        * model (nn.Module): Use this model for inference.</span>
+<span class="sd">        * filepath (str): Saved model weights.</span>
+<span class="sd">        * isFileDict (bool): True if filepath is a dictionary</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Predictions: Tensor of size [nSamples, 1, imgSize, imgSize].</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">            :linenos:</span>
+
+<span class="sd">            import airnetSNL.model.airnet_snl as snl</span>
+<span class="sd">            import airnetSNL.dataset.dataset_utils as du</span>
+<span class="sd">            import torch</span>
+<span class="sd">            from torch.utils.data import TensorDataset, DataLoader</span>
+
+<span class="sd">            angles = du.decimateAngles(nAnglesFull=451,</span>
+<span class="sd">                                       downsample=8)</span>
+<span class="sd">            imgSize = 336</span>
+<span class="sd">            batchSize = 10</span>
+<span class="sd">            totalSamples = 100</span>
+
+<span class="sd">            model = snl.AirNetSNL(angles=angles,</span>
+<span class="sd">                                  n_iterations=12,</span>
+<span class="sd">                                  n_cnn=10,</span>
+<span class="sd">                                  imgSize=imgSize,</span>
+<span class="sd">                                  batchSize=batchSize,</span>
+<span class="sd">                                  includeSkipConnection=False)</span>
+<span class="sd">            model = model.cuda()</span>
+<span class="sd">            filepath = &#39;./model.pth&#39;</span>
+<span class="sd">            testSinograms = torch.zeros(totalSamples, 1, len(angles), imgSize)</span>
+<span class="sd">            testImages = torch.zeros(totalSamples, 1, imgSize, imgSize)</span>
+<span class="sd">            testSet = TensorDataset(testSinograms.cpu(), testImages.cpu())</span>
+<span class="sd">            testLoader = DataLoader(testSet, batch_size=batchSize)</span>
+<span class="sd">            y_img_pred = run_inference(testLoader, model, filepath)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">filepath</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Need to specify filepath to load model.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">isFileDict</span><span class="p">:</span>
+        <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;model_state_dict&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">))</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+    <span class="n">totalLoss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">xSino</span><span class="p">,</span> <span class="n">yImg</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">testLoader</span><span class="p">):</span>
+        <span class="n">xSino_gpu</span> <span class="o">=</span> <span class="n">xSino</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xSino_gpu</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">yImg</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">totalLoss</span> <span class="o">+=</span> <span class="n">loss</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;totalLoss = </span><span class="si">{</span><span class="n">totalLoss</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">preds</span> <span class="o">=</span> <span class="n">pred</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">preds</span><span class="p">,</span> <span class="n">pred</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">preds</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Dennis J. Lee
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

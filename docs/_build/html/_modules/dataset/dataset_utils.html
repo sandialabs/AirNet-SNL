@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>dataset.dataset_utils &mdash; AirNet-SNL 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> AirNet-SNL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dataset.html">dataset package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model.html">model package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AirNet-SNL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>dataset.dataset_utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dataset.dataset_utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">skimage.transform</span> <span class="kn">import</span> <span class="n">resize</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+
+<div class="viewcode-block" id="calculateAngles"><a class="viewcode-back" href="../../dataset.html#dataset.dataset_utils.calculateAngles">[docs]</a><span class="k">def</span> <span class="nf">calculateAngles</span><span class="p">(</span><span class="n">nAngles</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return array of angles in [0, 360) degrees.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        nAngles (int): Number of desired angles.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        angles (tensor): Uniformly spaced angles, excluding 360 degrees.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">stepSize</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">/</span> <span class="n">nAngles</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="n">stepSize</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">angles</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># remove angle 360 (same as angle 0)</span></div>
+
+
+<div class="viewcode-block" id="decimateAngles"><a class="viewcode-back" href="../../dataset.html#dataset.dataset_utils.decimateAngles">[docs]</a><span class="k">def</span> <span class="nf">decimateAngles</span><span class="p">(</span><span class="n">nAnglesFull</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">downsample</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Decimate an array of angles.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        * nAnglesFull (int): Number of angles at full resolution.</span>
+<span class="sd">        * downsample (int): Downsampling factor.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        angles (tensor): Array of downsampled angles.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        As an example, suppose the full set contains 451 angles.</span>
+<span class="sd">        Below are various downsampling factors.</span>
+<span class="sd">            * 4x : 113 views</span>
+<span class="sd">            * 8x : 57 views</span>
+<span class="sd">            * 16x : 29 views</span>
+<span class="sd">            * 32x : 15 views</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">anglesFull</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">nAnglesFull</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">anglesFull</span> <span class="o">=</span> <span class="n">anglesFull</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">anglesFull</span><span class="p">[::</span><span class="n">downsample</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">angles</span></div>
+
+
+<div class="viewcode-block" id="sampleSinograms"><a class="viewcode-back" href="../../dataset.html#dataset.dataset_utils.sampleSinograms">[docs]</a><span class="k">def</span> <span class="nf">sampleSinograms</span><span class="p">(</span><span class="n">sinograms</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span>
+                    <span class="n">rowRange</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate train or test set from a subset of rows.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        * sinograms (tensor): Sampled row-by-row.</span>
+<span class="sd">        Dimensions are [batchSize, nAngles, nColumns].</span>
+<span class="sd">        * rowRange (List[int]): Row range to sample.</span>
+<span class="sd">        Dimensions are [startRow, endRow].</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Sampled sinogram tensor.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">startRow</span><span class="p">,</span> <span class="n">endRow</span> <span class="o">=</span> <span class="n">rowRange</span>
+    <span class="k">return</span> <span class="n">sinograms</span><span class="p">[</span><span class="n">startRow</span><span class="p">:</span><span class="n">endRow</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="decimateSinograms"><a class="viewcode-back" href="../../dataset.html#dataset.dataset_utils.decimateSinograms">[docs]</a><span class="k">def</span> <span class="nf">decimateSinograms</span><span class="p">(</span><span class="n">sinograms</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span>
+                      <span class="n">downsample</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decimate the sinograms by angle.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        * sinograms (tensor): Dimensions are</span>
+<span class="sd">        [batchSize, nChannels, nRows (nAngles), nCols].</span>
+
+<span class="sd">        * downsample (int): Downsampling factor</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Decimated sinogram tensor.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">decimated</span> <span class="o">=</span> <span class="n">sinograms</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">::</span><span class="n">downsample</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">decimated</span></div>
+
+
+<div class="viewcode-block" id="resizeSinograms"><a class="viewcode-back" href="../../dataset.html#dataset.dataset_utils.resizeSinograms">[docs]</a><span class="k">def</span> <span class="nf">resizeSinograms</span><span class="p">(</span><span class="n">sinograms</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">nRows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Reize projection images to (nRows, nRows).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        * sinograms (array): Dimensions are</span>
+<span class="sd">        [nRows, nAngles, nRows (=nColumns)]</span>
+
+<span class="sd">        * nRows (int): Desired image size</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Resized sinogram</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">nAngles</span> <span class="o">=</span> <span class="n">sinograms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">resized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nRows</span><span class="p">,</span> <span class="n">nAngles</span><span class="p">,</span> <span class="n">nRows</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nAngles</span><span class="p">):</span>
+        <span class="n">resized</span><span class="p">[:,</span> <span class="n">a</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">resize</span><span class="p">(</span><span class="n">sinograms</span><span class="p">[:,</span> <span class="n">a</span><span class="p">,</span> <span class="p">:],</span>
+                                  <span class="p">(</span><span class="n">nRows</span><span class="p">,</span> <span class="n">nRows</span><span class="p">),</span>
+                                  <span class="n">anti_aliasing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">resized</span></div>
+
+
+<div class="viewcode-block" id="getMask"><a class="viewcode-back" href="../../dataset.html#dataset.dataset_utils.getMask">[docs]</a><span class="k">def</span> <span class="nf">getMask</span><span class="p">(</span><span class="n">imgShape</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;Return a mask of an inscribed circle in the image.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        imgShape (List[int]): [nRows, nCols]</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Mask of 1 inside circle and 0 outside circle</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">imgShape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">begin</span> <span class="o">=</span> <span class="o">-</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">begin</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="n">xAxis</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+    <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xAxis</span><span class="p">,</span> <span class="n">xAxis</span><span class="p">)</span>
+    <span class="n">X1</span> <span class="o">=</span> <span class="n">X1</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    <span class="n">X2</span> <span class="o">=</span> <span class="n">X2</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">X1</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">X2</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">distance</span><span class="p">[</span><span class="n">distance</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">distance</span><span class="p">[</span><span class="n">distance</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">distance</span><span class="p">[</span><span class="n">distance</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">distance</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Dennis J. Lee
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

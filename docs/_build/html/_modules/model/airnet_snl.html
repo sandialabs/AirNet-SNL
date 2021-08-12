@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>model.airnet_snl &mdash; AirNet-SNL 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> AirNet-SNL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dataset.html">dataset package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model.html">model package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AirNet-SNL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>model.airnet_snl</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for model.airnet_snl</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch_radon</span> <span class="kn">import</span> <span class="n">Radon</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">airnetSNL.dataset.dataset_utils</span> <span class="kn">import</span> <span class="n">getMask</span>
+
+
+<span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">FloatTensor</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">set_default_tensor_type</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CNN"><a class="viewcode-back" href="../../model.html#model.airnet_snl.CNN">[docs]</a><span class="k">class</span> <span class="nc">CNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Regularization for sparse-data CT and XPCI CT.</span>
+
+<span class="sd">    * The CNN has 3 layers:</span>
+<span class="sd">    inChannels -&gt; Layer 1 -&gt; n_cnn -&gt; Layer 2 -&gt;</span>
+<span class="sd">    n_cnn -&gt; Layer_3 -&gt; 1 channel</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_cnn (int): Number of output channels in the 1st and 2nd layers.</span>
+<span class="sd">        imgSize (int): Number of rows/columns in the input image.</span>
+<span class="sd">        inChannels (int): Number of input channels to the CNN.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_cnn</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">imgSize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">inChannels</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_cnn</span> <span class="o">=</span> <span class="n">n_cnn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imgSize</span> <span class="o">=</span> <span class="n">imgSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inChannels</span> <span class="o">=</span> <span class="n">inChannels</span>
+        <span class="c1"># OutputSize = (N - F)/stride + 1 + pdg*2/stride</span>
+        <span class="c1"># pdg = (N - (N - F) / stride - 1) * stride / 2</span>
+        <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">kernelSize</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">pad</span> <span class="o">=</span> <span class="p">(</span><span class="n">imgSize</span> <span class="o">-</span> <span class="p">(</span><span class="n">imgSize</span> <span class="o">-</span> <span class="n">kernelSize</span><span class="p">)</span> <span class="o">/</span> <span class="n">stride</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">pad</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pad</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inChannels</span><span class="p">,</span>
+                               <span class="n">out_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_cnn</span><span class="p">,</span>
+                               <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernelSize</span><span class="p">,</span>
+                               <span class="n">padding</span><span class="o">=</span><span class="n">pad</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_cnn</span><span class="p">,</span>
+                               <span class="n">out_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_cnn</span><span class="p">,</span>
+                               <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernelSize</span><span class="p">,</span>
+                               <span class="n">padding</span><span class="o">=</span><span class="n">pad</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_cnn</span><span class="p">,</span>
+                               <span class="n">out_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                               <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernelSize</span><span class="p">,</span>
+                               <span class="n">padding</span><span class="o">=</span><span class="n">pad</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CNN.forward"><a class="viewcode-back" href="../../model.html#model.airnet_snl.CNN.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_concat</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x_concat</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div></div>
+
+
+<div class="viewcode-block" id="IterationBlock"><a class="viewcode-back" href="../../model.html#model.airnet_snl.IterationBlock">[docs]</a><span class="k">class</span> <span class="nc">IterationBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Simulates one iteration of forward model and CNN regularization.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        * n_cnn (int): Number of channels.</span>
+<span class="sd">        * angles (array): Array of measured angles.</span>
+<span class="sd">        * imgSize (int): Size of the 2D slice to be reconstructed.</span>
+<span class="sd">        * batchSize (int): Batch size.</span>
+<span class="sd">        * inChannels (int): Number of input channels to the CNN.</span>
+<span class="sd">        * includeSkipConnection (bool): Bypass the CNN block.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_cnn</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">angles</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+                 <span class="n">imgSize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">batchSize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">inChannels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">includeSkipConnection</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IterationBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_cnn</span> <span class="o">=</span> <span class="n">n_cnn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="n">angles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imgSize</span> <span class="o">=</span> <span class="n">imgSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inChannels</span> <span class="o">=</span> <span class="n">inChannels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radon</span> <span class="o">=</span> <span class="n">Radon</span><span class="p">(</span><span class="n">imgSize</span><span class="p">,</span>
+                           <span class="n">angles</span><span class="p">,</span>
+                           <span class="n">clip_to_circle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">det_count</span><span class="o">=</span><span class="n">imgSize</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batchSize</span> <span class="o">=</span> <span class="n">batchSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">includeSkipConnection</span> <span class="o">=</span> <span class="n">includeSkipConnection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnn</span> <span class="o">=</span> <span class="n">CNN</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_cnn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">imgSize</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inChannels</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+
+<div class="viewcode-block" id="IterationBlock.forward"><a class="viewcode-back" href="../../model.html#model.airnet_snl.IterationBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_sinogram</span><span class="p">,</span> <span class="n">y_img_prev</span><span class="p">,</span> <span class="n">y_img_concat_prev</span><span class="p">):</span>
+        <span class="n">Ay_projection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radon</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">y_img_prev</span><span class="p">)</span>
+        <span class="n">difference_projection</span> <span class="o">=</span> <span class="n">Ay_projection</span> <span class="o">-</span> <span class="n">x_sinogram</span>
+
+        <span class="n">filtered_sinogram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radon</span><span class="o">.</span><span class="n">filter_sinogram</span><span class="p">(</span><span class="n">difference_projection</span><span class="p">)</span>
+        <span class="n">fbp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radon</span><span class="o">.</span><span class="n">backprojection</span><span class="p">(</span><span class="n">filtered_sinogram</span><span class="p">)</span>
+        <span class="n">update_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">*</span> <span class="n">fbp</span>
+
+        <span class="n">y_img_update</span> <span class="o">=</span> <span class="n">y_img_prev</span> <span class="o">+</span> <span class="n">update_img</span>
+
+        <span class="n">y_img_concat</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">y_img_update</span><span class="p">,</span> <span class="n">y_img_concat_prev</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">prediction_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnn</span><span class="p">(</span><span class="n">y_img_concat</span><span class="p">)</span>
+
+        <span class="n">y_img</span> <span class="o">=</span> <span class="n">prediction_img</span>
+        <span class="c1"># Uncomment for skip connections</span>
+        <span class="c1"># y_img = y_img_update + prediction_img</span>
+        <span class="k">return</span> <span class="n">y_img</span><span class="p">,</span> <span class="n">y_img_update</span></div></div>
+
+
+<div class="viewcode-block" id="AirNetSNL"><a class="viewcode-back" href="../../model.html#model.airnet_snl.AirNetSNL">[docs]</a><span class="k">class</span> <span class="nc">AirNetSNL</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Computes forward model and regularizes with a CNN for N iterations.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        * angles (array): Array of measured angles.</span>
+<span class="sd">        * n_iterations (int): Number of times to run forward model + CNN.</span>
+<span class="sd">        * n_cnn (int): Number of output channels for the CNN layers.</span>
+<span class="sd">        * imgSize (int): Size of the 2D slice to be reconstructed.</span>
+<span class="sd">        * batchSize (int): Batch size</span>
+<span class="sd">        * includeSkipConnection (bool): Bypass the CNN block.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">angles</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+                 <span class="n">n_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+                 <span class="n">n_cnn</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                 <span class="n">imgSize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span>
+                 <span class="n">batchSize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span>
+                 <span class="n">includeSkipConnection</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        imgInit: &#39;zeros&#39; or &#39;fbp&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_iterations</span> <span class="o">=</span> <span class="n">n_iterations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_cnn</span> <span class="o">=</span> <span class="n">n_cnn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="n">angles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imgSize</span> <span class="o">=</span> <span class="n">imgSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">includeSkipConnection</span> <span class="o">=</span> <span class="n">includeSkipConnection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zeroMask</span> <span class="o">=</span> <span class="n">getMask</span><span class="p">((</span><span class="n">batchSize</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batchSize</span> <span class="o">=</span> <span class="n">batchSize</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">radon</span> <span class="o">=</span> <span class="n">Radon</span><span class="p">(</span><span class="n">imgSize</span><span class="p">,</span>
+                           <span class="n">angles</span><span class="p">,</span>
+                           <span class="n">clip_to_circle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">det_count</span><span class="o">=</span><span class="n">imgSize</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iterations</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">IterationBlock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_cnn</span><span class="p">,</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">,</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">imgSize</span><span class="p">,</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">batchSize</span><span class="p">,</span>
+                               <span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">includeSkipConnection</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">())</span>
+
+<div class="viewcode-block" id="AirNetSNL.forward"><a class="viewcode-back" href="../../model.html#model.airnet_snl.AirNetSNL.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_sinogram_in</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        x_sinogram_in: (nSamples, nChannels, nRows, nCols)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x_sinogram</span> <span class="o">=</span> <span class="n">x_sinogram_in</span>
+
+        <span class="n">filtered_sinogram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radon</span><span class="o">.</span><span class="n">filter_sinogram</span><span class="p">(</span><span class="n">x_sinogram</span><span class="p">)</span>
+        <span class="n">y0_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radon</span><span class="o">.</span><span class="n">backprojection</span><span class="p">(</span><span class="n">filtered_sinogram</span><span class="p">)</span>
+
+        <span class="n">y_img_concat</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+        <span class="n">y_img_prev</span> <span class="o">=</span> <span class="n">y0_img</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iterations</span><span class="p">):</span>
+            <span class="n">y_img_block</span><span class="p">,</span> <span class="n">y_img_update</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">ii</span><span class="p">](</span><span class="n">x_sinogram</span><span class="p">,</span>
+                                                        <span class="n">y_img_prev</span><span class="p">,</span>
+                                                        <span class="n">y_img_concat</span><span class="p">)</span>
+            <span class="n">y_img_concat</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">y_img_update</span><span class="p">,</span> <span class="n">y_img_concat</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">y_img_prev</span> <span class="o">=</span> <span class="n">y_img_block</span>
+
+        <span class="n">y_img_zeroed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">zeroMask</span> <span class="o">*</span> <span class="n">y_img_block</span>
+        <span class="k">return</span> <span class="n">y_img_zeroed</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Dennis J. Lee
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

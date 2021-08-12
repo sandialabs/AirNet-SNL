@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>model package &mdash; AirNet-SNL 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="dataset package" href="dataset.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> AirNet-SNL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">model package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-model.airnet_snl">model.airnet_snl module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-model.train_loop">model.train_loop module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AirNet-SNL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>model package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/model.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="model-package">
+<h1>model package<a class="headerlink" href="#model-package" title="Permalink to this headline">¶</a></h1>
+<section id="module-model.airnet_snl">
+<span id="model-airnet-snl-module"></span><h2>model.airnet_snl module<a class="headerlink" href="#module-model.airnet_snl" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="model.airnet_snl.AirNetSNL">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">model.airnet_snl.</span></span><span class="sig-name descname"><span class="pre">AirNetSNL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angles</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iterations</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cnn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imgSize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batchSize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">includeSkipConnection</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model/airnet_snl.html#AirNetSNL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.airnet_snl.AirNetSNL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Computes forward model and regularizes with a CNN for N iterations.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>angles (array): Array of measured angles.</p></li>
+<li><p>n_iterations (int): Number of times to run forward model + CNN.</p></li>
+<li><p>n_cnn (int): Number of output channels for the CNN layers.</p></li>
+<li><p>imgSize (int): Size of the 2D slice to be reconstructed.</p></li>
+<li><p>batchSize (int): Batch size</p></li>
+<li><p>includeSkipConnection (bool): Bypass the CNN block.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="model.airnet_snl.AirNetSNL.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_sinogram_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model/airnet_snl.html#AirNetSNL.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.airnet_snl.AirNetSNL.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>x_sinogram_in: (nSamples, nChannels, nRows, nCols)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.airnet_snl.AirNetSNL.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#model.airnet_snl.AirNetSNL.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="model.airnet_snl.CNN">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">model.airnet_snl.</span></span><span class="sig-name descname"><span class="pre">CNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_cnn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imgSize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inChannels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model/airnet_snl.html#CNN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.airnet_snl.CNN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Regularization for sparse-data CT and XPCI CT.</p>
+<ul class="simple">
+<li><p>The CNN has 3 layers:</p></li>
+</ul>
+<p>inChannels -&gt; Layer 1 -&gt; n_cnn -&gt; Layer 2 -&gt;
+n_cnn -&gt; Layer_3 -&gt; 1 channel</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>n_cnn (int): Number of output channels in the 1st and 2nd layers.
+imgSize (int): Number of rows/columns in the input image.
+inChannels (int): Number of input channels to the CNN.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="model.airnet_snl.CNN.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_concat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model/airnet_snl.html#CNN.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.airnet_snl.CNN.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.airnet_snl.CNN.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#model.airnet_snl.CNN.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="model.airnet_snl.IterationBlock">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">model.airnet_snl.</span></span><span class="sig-name descname"><span class="pre">IterationBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_cnn</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angles</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imgSize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batchSize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inChannels</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">includeSkipConnection</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model/airnet_snl.html#IterationBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.airnet_snl.IterationBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Simulates one iteration of forward model and CNN regularization.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>n_cnn (int): Number of channels.</p></li>
+<li><p>angles (array): Array of measured angles.</p></li>
+<li><p>imgSize (int): Size of the 2D slice to be reconstructed.</p></li>
+<li><p>batchSize (int): Batch size.</p></li>
+<li><p>inChannels (int): Number of input channels to the CNN.</p></li>
+<li><p>includeSkipConnection (bool): Bypass the CNN block.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="model.airnet_snl.IterationBlock.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_sinogram</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_img_prev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_img_concat_prev</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model/airnet_snl.html#IterationBlock.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.airnet_snl.IterationBlock.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.airnet_snl.IterationBlock.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#model.airnet_snl.IterationBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-model.train_loop">
+<span id="model-train-loop-module"></span><h2>model.train_loop module<a class="headerlink" href="#module-model.train_loop" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="model.train_loop.run_inference">
+<span class="sig-prename descclassname"><span class="pre">model.train_loop.</span></span><span class="sig-name descname"><span class="pre">run_inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testLoader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isFileDict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model/train_loop.html#run_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.train_loop.run_inference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the AirNet-SNL model by passing it in the argument.</p>
+<dl>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>testLoader (DataLoader): Dataset for running inference.</p></li>
+<li><p>model (nn.Module): Use this model for inference.</p></li>
+<li><p>filepath (str): Saved model weights.</p></li>
+<li><p>isFileDict (bool): True if filepath is a dictionary</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>Predictions: Tensor of size [nSamples, 1, imgSize, imgSize].</p>
+</dd>
+<dt>Example:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">airnetSNL.model.airnet_snl</span> <span class="k">as</span> <span class="nn">snl</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">airnetSNL.dataset.dataset_utils</span> <span class="k">as</span> <span class="nn">du</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="linenos"> 4</span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">TensorDataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="n">angles</span> <span class="o">=</span> <span class="n">du</span><span class="o">.</span><span class="n">decimateAngles</span><span class="p">(</span><span class="n">nAnglesFull</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span>
+<span class="linenos"> 7</span>                           <span class="n">downsample</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="linenos"> 8</span><span class="n">imgSize</span> <span class="o">=</span> <span class="mi">336</span>
+<span class="linenos"> 9</span><span class="n">batchSize</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="linenos">10</span><span class="n">totalSamples</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="n">model</span> <span class="o">=</span> <span class="n">snl</span><span class="o">.</span><span class="n">AirNetSNL</span><span class="p">(</span><span class="n">angles</span><span class="o">=</span><span class="n">angles</span><span class="p">,</span>
+<span class="linenos">13</span>                      <span class="n">n_iterations</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+<span class="linenos">14</span>                      <span class="n">n_cnn</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="linenos">15</span>                      <span class="n">imgSize</span><span class="o">=</span><span class="n">imgSize</span><span class="p">,</span>
+<span class="linenos">16</span>                      <span class="n">batchSize</span><span class="o">=</span><span class="n">batchSize</span><span class="p">,</span>
+<span class="linenos">17</span>                      <span class="n">includeSkipConnection</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">18</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="linenos">19</span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;./model.pth&#39;</span>
+<span class="linenos">20</span><span class="n">testSinograms</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">totalSamples</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">angles</span><span class="p">),</span> <span class="n">imgSize</span><span class="p">)</span>
+<span class="linenos">21</span><span class="n">testImages</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">totalSamples</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">)</span>
+<span class="linenos">22</span><span class="n">testSet</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">testSinograms</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">testImages</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+<span class="linenos">23</span><span class="n">testLoader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">testSet</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batchSize</span><span class="p">)</span>
+<span class="linenos">24</span><span class="n">y_img_pred</span> <span class="o">=</span> <span class="n">run_inference</span><span class="p">(</span><span class="n">testLoader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="model.train_loop.train_model">
+<span class="sig-prename descclassname"><span class="pre">model.train_loop.</span></span><span class="sig-name descname"><span class="pre">train_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.optim.adam.Adam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_loader</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.utils.data.dataloader.DataLoader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nEpochs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveModel</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resumeFrom</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saveFilePath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loadFilePath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model/train_loop.html#train_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.train_loop.train_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train a model.</p>
+<dl>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>model (Module): Model to be trained.</p></li>
+<li><p>optimizer (Adam): Optimization parameters, e.g. learning rate.</p></li>
+<li><p>train_loader (DataLoader): Dataset parameters, e.g. batch size.</p></li>
+<li><p>nEpochs (int): Number of epochs for training.</p></li>
+<li><p>saveModel (bool): Save model if loss improves.</p></li>
+<li><p>resumeFrom (int): Resume training from epoch number.</p></li>
+<li><p>saveFilePath (str): Where to save the model.</p></li>
+<li><p>loadFilePath (str): Which model to load.</p></li>
+</ul>
+</dd>
+<dt>Example:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">airnetSNL.model.train_loop</span> <span class="k">as</span> <span class="nn">tl</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">airnetSNL.model.airnet_snl</span> <span class="k">as</span> <span class="nn">snl</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">airnetSNL.dataset.dataset_utils</span> <span class="k">as</span> <span class="nn">du</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="linenos"> 5</span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">TensorDataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="linenos"> 6</span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">optim</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="n">angles</span> <span class="o">=</span> <span class="n">du</span><span class="o">.</span><span class="n">decimateAngles</span><span class="p">(</span><span class="n">nAnglesFull</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span>
+<span class="linenos"> 9</span>                           <span class="n">downsample</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="linenos">10</span><span class="n">imgSize</span> <span class="o">=</span> <span class="mi">336</span>
+<span class="linenos">11</span><span class="n">batchSize</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="linenos">12</span><span class="n">model</span> <span class="o">=</span> <span class="n">snl</span><span class="o">.</span><span class="n">AirNetSNL</span><span class="p">(</span><span class="n">angles</span><span class="o">=</span><span class="n">angles</span><span class="p">,</span>
+<span class="linenos">13</span>                      <span class="n">n_iterations</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+<span class="linenos">14</span>                      <span class="n">n_cnn</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="linenos">15</span>                      <span class="n">imgSize</span><span class="o">=</span><span class="n">imgSize</span><span class="p">,</span>
+<span class="linenos">16</span>                      <span class="n">batchSize</span><span class="o">=</span><span class="n">batchSize</span><span class="p">,</span>
+<span class="linenos">17</span>                      <span class="n">includeSkipConnection</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="n">trainSinograms</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">angles</span><span class="p">),</span> <span class="n">imgSize</span><span class="p">)</span>
+<span class="linenos">22</span><span class="n">trainImages</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">,</span> <span class="n">imgSize</span><span class="p">)</span>
+<span class="linenos">23</span><span class="n">trainSet</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">trainSinograms</span><span class="p">,</span> <span class="n">trainImages</span><span class="p">)</span>
+<span class="linenos">24</span><span class="n">trainLoader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">trainSet</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batchSize</span><span class="p">)</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="n">tl</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+<span class="linenos">27</span>               <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span>
+<span class="linenos">28</span>               <span class="n">train_loader</span><span class="o">=</span><span class="n">trainLoader</span><span class="p">,</span>
+<span class="linenos">29</span>               <span class="n">nEpochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">30</span>               <span class="n">saveModel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="linenos">31</span>               <span class="n">resumeFrom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="linenos">32</span>               <span class="n">saveFilePath</span><span class="o">=</span><span class="s1">&#39;./testModel.pth&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="dataset.html" class="btn btn-neutral float-left" title="dataset package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Dennis J. Lee
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

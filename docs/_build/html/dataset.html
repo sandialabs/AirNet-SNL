@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>dataset package &mdash; AirNet-SNL 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="model package" href="model.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> AirNet-SNL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">dataset package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-dataset.dataset_utils">dataset.dataset_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-dataset.metrics">dataset.metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-dataset.projections">dataset.projections module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">model package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AirNet-SNL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>dataset package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/dataset.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="dataset-package">
+<h1>dataset package<a class="headerlink" href="#dataset-package" title="Permalink to this headline">¶</a></h1>
+<section id="module-dataset.dataset_utils">
+<span id="dataset-dataset-utils-module"></span><h2>dataset.dataset_utils module<a class="headerlink" href="#module-dataset.dataset_utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.dataset_utils.calculateAngles">
+<span class="sig-prename descclassname"><span class="pre">dataset.dataset_utils.</span></span><span class="sig-name descname"><span class="pre">calculateAngles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nAngles</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None._VariableFunctionsClass.tensor</span><a class="reference internal" href="_modules/dataset/dataset_utils.html#calculateAngles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.dataset_utils.calculateAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return array of angles in [0, 360) degrees.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>nAngles (int): Number of desired angles.</p>
+</dd>
+<dt>Returns:</dt><dd><p>angles (tensor): Uniformly spaced angles, excluding 360 degrees.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.dataset_utils.decimateAngles">
+<span class="sig-prename descclassname"><span class="pre">dataset.dataset_utils.</span></span><span class="sig-name descname"><span class="pre">decimateAngles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nAnglesFull</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downsample</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None._VariableFunctionsClass.tensor</span><a class="reference internal" href="_modules/dataset/dataset_utils.html#decimateAngles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.dataset_utils.decimateAngles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decimate an array of angles.</p>
+<dl>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>nAnglesFull (int): Number of angles at full resolution.</p></li>
+<li><p>downsample (int): Downsampling factor.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>angles (tensor): Array of downsampled angles.</p>
+</dd>
+<dt>Example:</dt><dd><p>As an example, suppose the full set contains 451 angles.
+Below are various downsampling factors.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>4x : 113 views</p></li>
+<li><p>8x : 57 views</p></li>
+<li><p>16x : 29 views</p></li>
+<li><p>32x : 15 views</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.dataset_utils.decimateSinograms">
+<span class="sig-prename descclassname"><span class="pre">dataset.dataset_utils.</span></span><span class="sig-name descname"><span class="pre">decimateSinograms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sinograms</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">None._VariableFunctionsClass.tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downsample</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset_utils.html#decimateSinograms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.dataset_utils.decimateSinograms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decimate the sinograms by angle.</p>
+<dl>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>sinograms (tensor): Dimensions are</p></li>
+</ul>
+<p>[batchSize, nChannels, nRows (nAngles), nCols].</p>
+<ul class="simple">
+<li><p>downsample (int): Downsampling factor</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>Decimated sinogram tensor.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.dataset_utils.getMask">
+<span class="sig-prename descclassname"><span class="pre">dataset.dataset_utils.</span></span><span class="sig-name descname"><span class="pre">getMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imgShape</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset_utils.html#getMask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.dataset_utils.getMask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a mask of an inscribed circle in the image.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>imgShape (List[int]): [nRows, nCols]</p>
+</dd>
+<dt>Returns:</dt><dd><p>Mask of 1 inside circle and 0 outside circle</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.dataset_utils.resizeSinograms">
+<span class="sig-prename descclassname"><span class="pre">dataset.dataset_utils.</span></span><span class="sig-name descname"><span class="pre">resizeSinograms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sinograms</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nRows</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset_utils.html#resizeSinograms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.dataset_utils.resizeSinograms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reize projection images to (nRows, nRows).</p>
+<dl>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>sinograms (array): Dimensions are</p></li>
+</ul>
+<p>[nRows, nAngles, nRows (=nColumns)]</p>
+<ul class="simple">
+<li><p>nRows (int): Desired image size</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>Resized sinogram</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.dataset_utils.sampleSinograms">
+<span class="sig-prename descclassname"><span class="pre">dataset.dataset_utils.</span></span><span class="sig-name descname"><span class="pre">sampleSinograms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sinograms</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">None._VariableFunctionsClass.tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rowRange</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/dataset_utils.html#sampleSinograms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.dataset_utils.sampleSinograms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate train or test set from a subset of rows.</p>
+<dl>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>sinograms (tensor): Sampled row-by-row.</p></li>
+</ul>
+<p>Dimensions are [batchSize, nAngles, nColumns].
+* rowRange (List[int]): Row range to sample.
+Dimensions are [startRow, endRow].</p>
+</dd>
+<dt>Returns:</dt><dd><p>Sampled sinogram tensor.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-dataset.metrics">
+<span id="dataset-metrics-module"></span><h2>dataset.metrics module<a class="headerlink" href="#module-dataset.metrics" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.metrics.calculateMSE">
+<span class="sig-prename descclassname"><span class="pre">dataset.metrics.</span></span><span class="sig-name descname"><span class="pre">calculateMSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">None._VariableFunctionsClass.tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">None._VariableFunctionsClass.tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="reference internal" href="_modules/dataset/metrics.html#calculateMSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.metrics.calculateMSE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate mean squared error.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>gt (tensor): Ground truth tensor.</p></li>
+<li><p>img (tensor): Prediction. Same size as gt.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>Mean squared error (float).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.metrics.calculatePSNR">
+<span class="sig-prename descclassname"><span class="pre">dataset.metrics.</span></span><span class="sig-name descname"><span class="pre">calculatePSNR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">None._VariableFunctionsClass.tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">None._VariableFunctionsClass.tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="reference internal" href="_modules/dataset/metrics.html#calculatePSNR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.metrics.calculatePSNR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate peak signal to noise ratio.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>gt (tensor): Ground truth tensor.</p></li>
+<li><p>img (tensor): Prediction. Same size as gt.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>Peak signal to noise ratio (float).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.metrics.calculateSSIM">
+<span class="sig-prename descclassname"><span class="pre">dataset.metrics.</span></span><span class="sig-name descname"><span class="pre">calculateSSIM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">None._VariableFunctionsClass.tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">None._VariableFunctionsClass.tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="reference internal" href="_modules/dataset/metrics.html#calculateSSIM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.metrics.calculateSSIM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate structural similarity image metric.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>gt (tensor): Ground truth tensor.</p></li>
+<li><p>img (tensor): Prediction. Same size as gt.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>Structural similarity image metric (float).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-dataset.projections">
+<span id="dataset-projections-module"></span><h2>dataset.projections module<a class="headerlink" href="#module-dataset.projections" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.projections.loadSinograms">
+<span class="sig-prename descclassname"><span class="pre">dataset.projections.</span></span><span class="sig-name descname"><span class="pre">loadSinograms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projDir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None._VariableFunctionsClass.tensor</span><a class="reference internal" href="_modules/dataset/projections.html#loadSinograms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.projections.loadSinograms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return array of 2D sinograms from row-by-row projections</p>
+<dl>
+<dt>Args:</dt><dd><p>projDir: Directory with .tif files</p>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>sinograms (tensor):</p></li>
+</ul>
+<p>(batchSize = nRows) x (nChannels = 1) x nAngles x nColumns</p>
+</dd>
+<dt>Notes:</dt><dd><p>For absorption and dark field,
+take the neg-log of each projection.
+For differential or integrated phase, negate each projection
+to make most values positive.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dataset.projections.saveMultipleExperiments">
+<span class="sig-prename descclassname"><span class="pre">dataset.projections.</span></span><span class="sig-name descname"><span class="pre">saveMultipleExperiments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projDirs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainSinoFile</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">testSinoFile</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset/projections.html#saveMultipleExperiments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.projections.saveMultipleExperiments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load projections, and save them in train and test sets.
+Uses the top half of each projection for training and
+the bottom half for testing.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>projDirs (List[str]): Directories with tif projections.</p></li>
+<li><p>trainSinoFile (str): Filename to save train projections.</p></li>
+<li><p>testSinoFile (str): Filename to save test projections.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>Saves projections in two files for training and testing.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="model.html" class="btn btn-neutral float-right" title="model package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Dennis J. Lee
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
