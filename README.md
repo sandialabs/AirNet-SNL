@@ -1,5 +1,6 @@
 [![GitHub version](https://badge.fury.io/gh/sandialabs%2FAirNet-SNL.svg)](https://badge.fury.io/gh/dennis-j-lee%2Fasnl)
 [![ActionStatus](https://github.com/sandialabs/AirNet-SNL/workflows/lint%20and%20test/badge.svg)](https://github.com/sandialabs/AirNet-SNL/actions)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5192883.svg)](https://doi.org/10.5281/zenodo.5192883)
 
 # AirNet-SNL: End-to-End Training of Iterative Reconstruction and Deep Neural Network Regularization for Sparse-Data XPCI CT
 
