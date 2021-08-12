@@ -1,0 +1,6 @@
+numpy>=1.15.0
+scikit-image
+imageio
+tqdm
+typing
+torch==1.9.0
