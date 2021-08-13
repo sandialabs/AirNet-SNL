@@ -1,7 +1,7 @@
 # AiNet-SNL: End-to-End Training of Iterative Reconstruction and Deep Neural Network Regularization for Sparse-Data XPCI CT
 
 ### Todo
-- [ ] Install CUDA on Github.
+- [ ] Install CUDA on Github. This might require modification of lint-and-test.yml or requirements.txt.
 - [ ] Add the torch_radon package to requirements.txt:
     git+git://github.com/matteo-ronchetti/torch-radon@master.
     It requires CUDA to run.
