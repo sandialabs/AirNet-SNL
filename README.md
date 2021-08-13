@@ -18,7 +18,7 @@ Few-view computed tomography (CT) reduces radiation dose and speeds acquisition 
 For example, X-ray phase contrast imaging (XPCI) CT may decimate the angular range of measurements.
 Various algorithms reconstruct undersampled images.
 In iterative reconstruction, the choice of priors includes total variation and compressive sensing.
-A deep learning method called AirNet unrolls an iterative reconstruction algorithm..
+A deep learning method called AirNet unrolls an iterative reconstruction algorithm.
 
 We present a deep learning image reconstruction technique for parallel beam CT that builds on AirNet.
 Our model, called AirNet-SNL, makes three key contributions: first, it trains on randomly generated shapes; second, it removes skip connections to mitigate streak artifacts, which we observe with the random shape dataset; third, and most importantly, we demonstrate CT reconstructions for all three XPCI image products: absorption, dark field, and differential phase.
