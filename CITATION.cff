@@ -1,0 +1,17 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Lee
+    given-names: Dennis
+    orcid: https://orcid.org/0000-0002-8835-5687
+title: "AirNet-SNL: End-to-End Training of Iterative Reconstruction and Deep Neural Network Regularization for Sparse-Data XPCI CT"
+version: 1.0.0
+doi: 10.5281/zenodo.5192883
+date-released: 2021-08-12
+keywords:
+  - machine learning
+  - computed tomography
+  - neural networks
+  - x-ray phase contrast imaging
+  - sparse data
+license: "BSD-3C"
