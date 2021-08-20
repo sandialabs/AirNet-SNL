@@ -9,21 +9,7 @@
 More information about the AirNet-SNL modules is available at [readthedocs](https://airnet-snl.readthedocs.io/en/latest/).
 
 ## Overview
-AirNet-SNL is a Python package for computed tomography (CT) reconstruction with applications in X-ray phase contrast imaging (XPCI) given sparse data.
-It combines iterative reconstruction and convolutional neural networks with end-to-end training.
-The model reduces streak artifacts from filtered back-projection with limited data, and it trains on randomly generated shapes.
-
-## Introduction
-Few-view computed tomography (CT) reduces radiation dose and speeds acquisition time.
-For example, X-ray phase contrast imaging (XPCI) CT may decimate the angular range of measurements.
-Various algorithms reconstruct undersampled images.
-In iterative reconstruction, the choice of priors includes total variation and compressive sensing.
-A deep learning method called AirNet unrolls an iterative reconstruction algorithm.
-
-We present a deep learning image reconstruction technique for parallel beam CT that builds on AirNet.
-Our model, called AirNet-SNL, makes three key contributions: first, it trains on randomly generated shapes; second, it removes skip connections to mitigate streak artifacts, which we observe with the random shape dataset; third, and most importantly, we demonstrate CT reconstructions for all three XPCI image products: absorption, dark field, and differential phase.
-
-We refer the reader to our conference presentation at the OSA Imaging and Applied Optics Congress for more information.
+AirNet-SNL is a Python package for computed tomography (CT) reconstruction. It implements a machine learning model to reconstruct 2D slices from 1D projections. The AirNet-SNL model is an end-to-end neural network that combines physics-based iterative reconstruction with convolutional neural networks for sparse data. It takes sparse data as input, including decimated angles or views. The library produces different image products, including absorption, dark field, and differential or integrated phase. For example, we have demonstrated AirNet-SNL on X-ray phase contrast imaging (XPCI). As a quick start, check out the examples in the documentation for training the model and running inference.
 
 ## Citing AirNet-SNL
 If you find AirNet-SNL useful in your work, please consider citing
