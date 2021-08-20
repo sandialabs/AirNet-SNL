@@ -9,7 +9,7 @@
 More information about the AirNet-SNL modules is available at [readthedocs](https://airnet-snl.readthedocs.io/en/latest/).
 
 ## Overview
-AirNet-SNL is a Python package for computed tomography (CT) reconstruction. It implements a machine learning model to reconstruct 2D slices from 1D projections. The AirNet-SNL model is an end-to-end neural network that combines physics-based iterative reconstruction with convolutional neural networks for sparse data. It takes sparse data as input, including decimated angles or views. The library produces different image products, including absorption, dark field, and differential or integrated phase. For example, we have demonstrated AirNet-SNL on X-ray phase contrast imaging (XPCI). As a quick start, check out the examples in the documentation for training the model and running inference.
+AirNet-SNL is a Python package for computed tomography (CT) reconstruction. It implements a machine learning model to reconstruct 2D slices from 1D projections. The AirNet-SNL model is an end-to-end neural network that combines physics-based iterative reconstruction with convolutional neural networks. It accepts sparse data as input, including decimated angles or views. The library produces different image products, including absorption, dark field, and differential or integrated phase. For example, we have demonstrated AirNet-SNL on X-ray phase contrast imaging (XPCI). As a quick start, check out the examples in the documentation for training the model and running inference.
 
 ## Citing AirNet-SNL
 If you find AirNet-SNL useful in your work, please consider citing
