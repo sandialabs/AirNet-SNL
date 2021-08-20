@@ -46,8 +46,7 @@ INSTALL_REQUIRES = [
     'imageio',
     'tqdm',
     'typing',
-    'torch=1.9.0+gpu',
-    'torch_radon'
+    'torch==1.9.0'
 ]
 
 DOCS_REQUIRE = [
@@ -61,8 +60,6 @@ EXTRAS_REQUIRE = {
 }
 
 EXTRAS_REQUIRE['all'] = sorted(set(sum(EXTRAS_REQUIRE.values(), [])))
-
-SETUP_REQUIRES = ['setuptools_scm']
 
 CLASSIFIERS = [
     'Development Status :: 2 - Pre-Alpha',
@@ -81,7 +78,6 @@ setup(
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     tests_require=TESTS_REQUIRE,
-    setup_requires=SETUP_REQUIRES,
     ext_modules=[],
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
