@@ -1,13 +1,16 @@
 References
 ==========
 
-This package has a DOI (soon)! If you publish using this package, please cite us:
+Please cite this work as
 
-[Placeholder for DOI]
+Software citation
+-----------------
+
+Dennis J. Lee. (2021). sandialabs/AirNet-SNL: First release of AirNet-SNL (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.5192883
 
 
-External references
----------------------
+Conference paper citation
+-------------------------
 
 D. J. Lee, J. Mulcahy-Stanislawczyk, E. Jimenez, D. West, R. Goodner, C. Epstein, K. Thompson, and A. L. Dagel, 
 "AirNet-SNL: End-to-End Training of Iterative Reconstruction and Deep Neural Network Regularization for Sparse-Data XPCI CT," 
