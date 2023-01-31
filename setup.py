@@ -51,7 +51,7 @@ INSTALL_REQUIRES = [
     'imageio',
     'tqdm',
     'typing',
-    'torch==1.9.0'
+    'torch==1.13.1'
 ]
 
 DOCS_REQUIRE = [
